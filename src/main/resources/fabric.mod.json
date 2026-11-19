@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "autototem",
+  "version": "${version}",
+  "name": "Auto Totem",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.example.autototem.AutoTotemMod"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
