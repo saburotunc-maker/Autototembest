@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - mc: "1.21"
+            yarn: "1.21+build.9"
+            fabric: "0.102.0+1.21"
+          - mc: "1.21.4"
+            yarn: "1.21.4+build.8"
+            fabric: "0.119.2+1.21.4"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.10"
+      - run: >
+          gradle build
+          -Pminecraft_version=${{ matrix.mc }}
+          -Pyarn_mappings=${{ matrix.yarn }}
+          -Pfabric_version=${{ matrix.fabric }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: autototem-${{ matrix.mc }}
+          path: build/libs/*.jar
